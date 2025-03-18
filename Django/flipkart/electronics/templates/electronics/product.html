@@ -3,33 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
+    <title>Flipkart Clone</title>
 
     <!-- Bootstrap CDN -->
     <link 
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
         rel="stylesheet">
+    <!-- Font Awesome CDN for Icons -->
+    <link 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+        rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .navbar {
+            background-color: #2874f0 !important;
+        }
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+        }
+        .nav-link {
+            color: white !important;
+        }
+        .carousel-item img {
+            height: 300px;
+            object-fit: cover;
+        }
+        .card {
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .footer {
+            background-color: #172337;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
-    <div class="container my-5">
-        <h2 class="text-center mb-4">Product List</h2>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Flipkart</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Offers</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Carousel for Banners -->
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Banner 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Banner 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Banner 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Product Categories -->
+    <div class="container my-4">
+        <h4 class="mb-3">Shop by Category</h4>
         <div class="row">
-            {% for pro in prod %}
-                <div class="col-md-4 col-sm-6 mb-4">
-                    <div class="card shadow-sm">
-                        <img src="{{ pro.image.url }}" class="card-img-top" alt="{{ pro.product_name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ pro.Product_name }}</h5>
-                            <p class="card-text text-muted">{{ pro.product_desc|truncatechars:50 }}</p>
-                            <h6 class="text-danger">₹{{ pro.product_price }}</h6>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
+            <div class="col-md-2 col-sm-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-mobile-alt fa-3x mb-3"></i>
+                        <h6 class="card-title">Mobiles</h6>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+            <div class="col-md-2 col-sm-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-laptop fa-3x mb-3"></i>
+                        <h6 class="card-title">Laptops</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-tshirt fa-3x mb-3"></i>
+                        <h6 class="card-title">Fashion</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-tv fa-3x mb-3"></i>
+                        <h6 class="card-title">Electronics</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-home fa-3x mb-3"></i>
+                        <h6 class="card-title">Home</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-car fa-3x mb-3"></i>
+                        <h6 class="card-title">Automotive</h6>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Product List -->
+    <div class="container my-5">
+        <h4 class="mb-4">Trending Products</h4>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="https://picsum.photos/300/200?random=1" class="card-img-top" alt="Product 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 1</h5>
+                        <p class="card-text text-muted">This is a description for Product 1.</p>
+                        <h6 class="text-danger">₹999</h6>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="https://picsum.photos/300/200?random=2" class="card-img-top" alt="Product 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 2</h5>
+                        <p class="card-text text-muted">This is a description for Product 2.</p>
+                        <h6 class="text-danger">₹1499</h6>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="https://picsum.photos/300/200?random=3" class="card-img-top" alt="Product 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 3</h5>
+                        <p class="card-text text-muted">This is a description for Product 3.</p>
+                        <h6 class="text-danger">₹1999</h6>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="https://picsum.photos/300/200?random=4" class="card-img-top" alt="Product 4">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 4</h5>
+                        <p class="card-text text-muted">This is a description for Product 4.</p>
+                        <h6 class="text-danger">₹2499</h6>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>&copy; 2023 Flipkart Clone. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
