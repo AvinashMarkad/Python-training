@@ -17,69 +17,108 @@
     />
     <!-- Custom CSS -->
     <style>
+      /* White background for the body */
+      body {
+        background-color: white !important;
+      }
+
+      /* Yellow buttons */
+      .btn-yellow {
+        background-color: #ffc107; /* Bootstrap's yellow color */
+        border-color: #ffc107;
+        color: black; /* Text color */
+      }
+      .btn-yellow:hover {
+        background-color: #e0a800; /* Darker yellow on hover */
+        border-color: #e0a800;
+      }
+
+      /* Navbar styling */
       .navbar {
-        background-color: #2874f0 !important;
+        background-color: #ffffff !important; /* White navbar */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
       }
       .navbar-brand {
-        color: white !important;
+        color: #000000 !important; /* Black text for brand */
         font-weight: bold;
       }
       .nav-link {
-        color: white !important;
+        color: #000000 !important; /* Black text for links */
       }
-      .carousel-item img {
-        height: 300px;
-        object-fit: cover;
-      }
+
+      /* Card styling */
       .card {
         transition: transform 0.3s;
+        border: 1px solid #e0e0e0; /* Light border */
       }
       .card:hover {
         transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
       }
+
+      /* Footer styling */
       .footer {
-        background-color: #172337;
-        color: white;
+        background-color: #f8f9fa; /* Light gray background */
+        color: #000000; /* Black text */
         padding: 20px 0;
       }
     </style>
   </head>
-  <body class="bg-light">
-    <div class="container mt-4">
-      <form method="post" class="needs-validation" novalidate>
-        {% csrf_token %}
-        <!-- Add CSRF token for security -->
-
-        <!-- Loop through form fields and apply Bootstrap styling -->
-        {% for field in form %}
-        <div class="mb-3">
-          <label for="{{ field.id_for_label }}" class="form-label"
-            >{{ field.label }}</label
-          >
-          {{ field }} {% if field.help_text %}
-          <div class="form-text">{{ field.help_text }}</div>
-          {% endif %} {% for error in field.errors %}
-          <div class="invalid-feedback">{{ error }}</div>
-          {% endfor %}
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">Flipkart</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Offers</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input
+              id="searchInput"
+              class="form-control me-2"
+              type="search"
+              placeholder="Search products..."
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-yellow"
+              type="button"
+              onclick="searchProducts()"
+            >
+              Search
+            </button>
+          </form>
         </div>
-        {% endfor %}
+      </div>
+    </nav>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Add to Cart</button>
-      </form>
-    </div>
-
-    {% comment %} form ends here {% endcomment %}
-
+    <!-- Trending Products Section -->
     <div class="container my-5">
       <h4 class="mb-4">Trending Products</h4>
-      <a href="{% url 'electronics/card' %}" class="btn btn-success mb-4"
+      <a href="{% url 'electronics/card' %}" class="btn btn-yellow mb-4"
         >View Cart</a
       >
 
-      <div class="row">
+      <div class="row" id="productContainer">
         {% for product in prod %}
-        <div class="col-md-3 col-sm-6 mb-4">
+        <div class="col-md-3 col-sm-6 mb-4 product-card">
           <div class="card shadow-sm">
             <!-- Use online image URL -->
             <img
@@ -92,10 +131,10 @@
               <p class="card-text text-muted">{{ product.product_desc }}</p>
               <h6 class="text-danger">₹{{ product.product_price }}</h6>
 
-              <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
+              <!-- Add to Cart Button -->
               <a
                 href="#"
-                class="btn btn-primary"
+                class="btn btn-yellow"
                 onclick="addToCart('{{ product.product_name }}',' {{ product.product_price }}', 'https://picsum.photos/300/200?random={{ forloop.counter }}')"
                 >Add to Cart</a
               >
@@ -112,6 +151,34 @@
       </div>
     </div>
 
+    <!-- Form Section -->
+    <div class="container mt-4 text-center">
+      <div class="p-4 border rounded shadow-sm bg-white">
+        <form method="post" class="needs-validation" novalidate>
+          {% csrf_token %}
+          <!-- Loop through form fields and apply Bootstrap styling -->
+          {% for field in form %}
+          <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label"
+              >{{ field.label }}</label
+            >
+            {{ field }} {% if field.help_text %}
+            <div class="form-text">{{ field.help_text }}</div>
+            {% endif %} {% for error in field.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-yellow">Add to Cart</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript for Add to Cart -->
     <script>
       function addToCart(name, price, image) {
         // Get the existing cart items from localStorage
@@ -140,12 +207,6 @@
       }
     </script>
 
-    <!-- Font Awesome for Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-
     <!-- JavaScript for Like Button -->
     <script>
       function toggleLike(button) {
@@ -159,6 +220,27 @@
           icon.classList.remove("fas");
           icon.classList.add("far");
         }
+      }
+    </script>
+
+    <!-- JavaScript for Search Functionality -->
+    <script>
+      function searchProducts() {
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const productCards = document.querySelectorAll(".product-card");
+
+        productCards.forEach((card) => {
+          const productName = card
+            .querySelector(".card-title")
+            .textContent.toLowerCase();
+          if (productName.includes(searchInput)) {
+            card.style.display = "block"; // Show matching products
+          } else {
+            card.style.display = "none"; // Hide non-matching products
+          }
+        });
       }
     </script>
 
