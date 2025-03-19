@@ -44,161 +44,100 @@
 </head>
 <body class="bg-light">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Flipkart</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Offers</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Carousel for Banners -->
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Banner 1">
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Banner 2">
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Banner 3">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-    <!-- Product Categories -->
-    <div class="container my-4">
-        <h4 class="mb-3">Shop by Category</h4>
-        <div class="row">
-            <div class="col-md-2 col-sm-4 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="fas fa-mobile-alt fa-3x mb-3"></i>
-                        <h6 class="card-title">Mobiles</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="fas fa-laptop fa-3x mb-3"></i>
-                        <h6 class="card-title">Laptops</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="fas fa-tshirt fa-3x mb-3"></i>
-                        <h6 class="card-title">Fashion</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="fas fa-tv fa-3x mb-3"></i>
-                        <h6 class="card-title">Electronics</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="fas fa-home fa-3x mb-3"></i>
-                        <h6 class="card-title">Home</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="fas fa-car fa-3x mb-3"></i>
-                        <h6 class="card-title">Automotive</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product List -->
     <div class="container my-5">
         <h4 class="mb-4">Trending Products</h4>
+        <a href="{% url 'electronics/card' %}" class="btn btn-success mb-4">View Cart</a>
+       
+           
         <div class="row">
+            {% for product in prod %}
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card shadow-sm">
-                    <img src="https://picsum.photos/300/200?random=1" class="card-img-top" alt="Product 1">
+                    <!-- Use online image URL -->
+                    <img src="https://picsum.photos/300/200?random={{ forloop.counter }}" class="card-img-top" alt="{{ product.product_name }}">
                     <div class="card-body">
-                        <h5 class="card-title">Product 1</h5>
-                        <p class="card-text text-muted">This is a description for Product 1.</p>
-                        <h6 class="text-danger">₹999</h6>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <h5 class="card-title">{{ product.product_name }}</h5>
+                        <p class="card-text text-muted">{{ product.product_desc }}</p>
+                        <h6 class="text-danger">₹{{ product.product_price }}</h6>
+
+                        <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
+                        <a href="#" class="btn btn-primary" onclick="addToCart('{{ product.product_name }}',' {{ product.product_price }}', 'https://picsum.photos/300/200?random={{ forloop.counter }}')">Add to Cart</a>
+    
+                        <!-- Like Button -->
+                        <button class="btn btn-like" onclick="toggleLike(this)">
+                            <i class="far fa-heart"></i> <!-- Default (unliked) icon -->
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-6 mb-4">
-                <div class="card shadow-sm">
-                    <img src="https://picsum.photos/300/200?random=2" class="card-img-top" alt="Product 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Product 2</h5>
-                        <p class="card-text text-muted">This is a description for Product 2.</p>
-                        <h6 class="text-danger">₹1499</h6>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-4">
-                <div class="card shadow-sm">
-                    <img src="https://picsum.photos/300/200?random=3" class="card-img-top" alt="Product 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Product 3</h5>
-                        <p class="card-text text-muted">This is a description for Product 3.</p>
-                        <h6 class="text-danger">₹1999</h6>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-4">
-                <div class="card shadow-sm">
-                    <img src="https://picsum.photos/300/200?random=4" class="card-img-top" alt="Product 4">
-                    <div class="card-body">
-                        <h5 class="card-title">Product 4</h5>
-                        <p class="card-text text-muted">This is a description for Product 4.</p>
-                        <h6 class="text-danger">₹2499</h6>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
+
+    <script>
+        function addToCart(name, price, image) {
+            // Get the existing cart items from localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+            // Check if the product is already in the cart
+            const existingProduct = cart.find(item => item.name === name);
+            if (existingProduct) {
+                // If the product exists, increase its quantity
+                existingProduct.quantity += 1;
+            } else {
+                // If the product doesn't exist, add it to the cart
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1,
+                });
+            }
+    
+            // Save the updated cart back to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+    
+            // Notify the user
+            alert(`${name} added to cart!`);
+        }
+    </script>
+
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- JavaScript for Like Button -->
+    <script>
+        function toggleLike(button) {
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                // Change to solid heart (liked)
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                // Change to regular heart (unliked)
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        }
+    </script>
+    
+    <!-- Optional: Add CSS for Like Button -->
+    <style>
+        .btn-like {
+            background: none;
+            border: none;
+            color: #ff4757; /* Red color for the heart */
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+        }
+        .btn-like:hover {
+            color: #ff6b81; /* Lighter red on hover */
+        }
+    </style>
 
     <!-- Footer -->
     <footer class="footer text-center">

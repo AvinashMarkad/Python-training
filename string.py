@@ -51,9 +51,6 @@
 # print(name) # ['hello', 'world']
 # #........................................................................................................
 
-# str="hello world"
-# print(str.startswith("hello")) # True
-# print(str.endswith("world")) # True
-
-# #........................................................................................................
-
+str="hello world"
+print(str.startswith("hello")) # True
+print(str.endswith("world")) # True
