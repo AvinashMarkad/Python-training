@@ -30,11 +30,44 @@
 
 # ........................................................................................................
 
-string ="GeekyShows"
+# string ="GeekyShows"
 
-y=len(string)
+# y=len(string)
 
-print("length of the string is",y)
+# print("length of the string is",y)
 
-for i in range(y):
-    print(string[i],"=",i)
+# for i in range(y):
+#     print(i,"=",string[i])
+
+
+# ........................................................................................................
+# print ("using while loop")
+# string ="AVINASH"
+# y=len(string)
+# print("length of the string is",y)
+# i=0
+# while (i<y):
+#     print(i,"=",string[i])
+#     i+=1
+# ........................................................................................................
+
+# for i in range(3):
+#     print("outer loop",i)
+#     for j in range(5):
+#         print("inner loop",j)
+
+# ........................................................................................................
+
+# for i in range(10):
+#     if(i==5):
+#         continue
+#     print(i)
+# print("end of the code")
+
+# ........................................................................................................
+
+for i in range(10):
+    if(i==5):
+        pass
+    print(i)
+print("end of the code")
