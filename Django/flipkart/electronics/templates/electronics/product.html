@@ -1,152 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flipkart Clone</title>
 
     <!-- Bootstrap CDN -->
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-        rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Font Awesome CDN for Icons -->
-    <link 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
-        rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- Custom CSS -->
     <style>
-        .navbar {
-            background-color: #2874f0 !important;
-        }
-        .navbar-brand {
-            color: white !important;
-            font-weight: bold;
-        }
-        .nav-link {
-            color: white !important;
-        }
-        .carousel-item img {
-            height: 300px;
-            object-fit: cover;
-        }
-        .card {
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        .footer {
-            background-color: #172337;
-            color: white;
-            padding: 20px 0;
-        }
+      .navbar {
+        background-color: #2874f0 !important;
+      }
+      .navbar-brand {
+        color: white !important;
+        font-weight: bold;
+      }
+      .nav-link {
+        color: white !important;
+      }
+      .carousel-item img {
+        height: 300px;
+        object-fit: cover;
+      }
+      .card {
+        transition: transform 0.3s;
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+      .footer {
+        background-color: #172337;
+        color: white;
+        padding: 20px 0;
+      }
     </style>
-</head>
-<body class="bg-light">
+  </head>
+  <body class="bg-light">
+    <div class="container mt-4">
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <!-- Add CSRF token for security -->
 
+        <!-- Loop through form fields and apply Bootstrap styling -->
+        {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label"
+            >{{ field.label }}</label
+          >
+          {{ field }} {% if field.help_text %}
+          <div class="form-text">{{ field.help_text }}</div>
+          {% endif %} {% for error in field.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+      </form>
+    </div>
+
+    {% comment %} form ends here {% endcomment %}
 
     <div class="container my-5">
-        <h4 class="mb-4">Trending Products</h4>
-        <a href="{% url 'electronics/card' %}" class="btn btn-success mb-4">View Cart</a>
-       
-           
-        <div class="row">
-            {% for product in prod %}
-            <div class="col-md-3 col-sm-6 mb-4">
-                <div class="card shadow-sm">
-                    <!-- Use online image URL -->
-                    <img src="https://picsum.photos/300/200?random={{ forloop.counter }}" class="card-img-top" alt="{{ product.product_name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.product_name }}</h5>
-                        <p class="card-text text-muted">{{ product.product_desc }}</p>
-                        <h6 class="text-danger">₹{{ product.product_price }}</h6>
+      <h4 class="mb-4">Trending Products</h4>
+      <a href="{% url 'electronics/card' %}" class="btn btn-success mb-4"
+        >View Cart</a
+      >
 
-                        <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
-                        <a href="#" class="btn btn-primary" onclick="addToCart('{{ product.product_name }}',' {{ product.product_price }}', 'https://picsum.photos/300/200?random={{ forloop.counter }}')">Add to Cart</a>
-    
-                        <!-- Like Button -->
-                        <button class="btn btn-like" onclick="toggleLike(this)">
-                            <i class="far fa-heart"></i> <!-- Default (unliked) icon -->
-                        </button>
-                    </div>
-                </div>
+      <div class="row">
+        {% for product in prod %}
+        <div class="col-md-3 col-sm-6 mb-4">
+          <div class="card shadow-sm">
+            <!-- Use online image URL -->
+            <img
+              src="https://picsum.photos/300/200?random={{ forloop.counter }}"
+              class="card-img-top"
+              alt="{{ product.product_name }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ product.product_name }}</h5>
+              <p class="card-text text-muted">{{ product.product_desc }}</p>
+              <h6 class="text-danger">₹{{ product.product_price }}</h6>
+
+              <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
+              <a
+                href="#"
+                class="btn btn-primary"
+                onclick="addToCart('{{ product.product_name }}',' {{ product.product_price }}', 'https://picsum.photos/300/200?random={{ forloop.counter }}')"
+                >Add to Cart</a
+              >
+
+              <!-- Like Button -->
+              <button class="btn btn-like" onclick="toggleLike(this)">
+                <i class="far fa-heart"></i>
+                <!-- Default (unliked) icon -->
+              </button>
             </div>
-            {% endfor %}
+          </div>
         </div>
+        {% endfor %}
+      </div>
     </div>
 
     <script>
-        function addToCart(name, price, image) {
-            // Get the existing cart items from localStorage
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-            // Check if the product is already in the cart
-            const existingProduct = cart.find(item => item.name === name);
-            if (existingProduct) {
-                // If the product exists, increase its quantity
-                existingProduct.quantity += 1;
-            } else {
-                // If the product doesn't exist, add it to the cart
-                cart.push({
-                    name: name,
-                    price: price,
-                    image: image,
-                    quantity: 1,
-                });
-            }
-    
-            // Save the updated cart back to localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
-    
-            // Notify the user
-            alert(`${name} added to cart!`);
+      function addToCart(name, price, image) {
+        // Get the existing cart items from localStorage
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Check if the product is already in the cart
+        const existingProduct = cart.find((item) => item.name === name);
+        if (existingProduct) {
+          // If the product exists, increase its quantity
+          existingProduct.quantity += 1;
+        } else {
+          // If the product doesn't exist, add it to the cart
+          cart.push({
+            name: name,
+            price: price,
+            image: image,
+            quantity: 1,
+          });
         }
+
+        // Save the updated cart back to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Notify the user
+        alert(`${name} added to cart!`);
+      }
     </script>
 
-    
     <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <!-- JavaScript for Like Button -->
     <script>
-        function toggleLike(button) {
-            const icon = button.querySelector('i');
-            if (icon.classList.contains('far')) {
-                // Change to solid heart (liked)
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-            } else {
-                // Change to regular heart (unliked)
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-            }
+      function toggleLike(button) {
+        const icon = button.querySelector("i");
+        if (icon.classList.contains("far")) {
+          // Change to solid heart (liked)
+          icon.classList.remove("far");
+          icon.classList.add("fas");
+        } else {
+          // Change to regular heart (unliked)
+          icon.classList.remove("fas");
+          icon.classList.add("far");
         }
+      }
     </script>
-    
+
     <!-- Optional: Add CSS for Like Button -->
     <style>
-        .btn-like {
-            background: none;
-            border: none;
-            color: #ff4757; /* Red color for the heart */
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 10px;
-        }
-        .btn-like:hover {
-            color: #ff6b81; /* Lighter red on hover */
-        }
+      .btn-like {
+        background: none;
+        border: none;
+        color: #ff4757; /* Red color for the heart */
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 10px;
+      }
+      .btn-like:hover {
+        color: #ff6b81; /* Lighter red on hover */
+      }
     </style>
 
     <!-- Footer -->
     <footer class="footer text-center">
-        <div class="container">
-            <p>&copy; 2023 Flipkart Clone. All rights reserved.</p>
-        </div>
+      <div class="container">
+        <p>&copy; 2023 Flipkart Clone. All rights reserved.</p>
+      </div>
     </footer>
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
