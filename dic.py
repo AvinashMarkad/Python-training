@@ -7,3 +7,8 @@ dic[100] = "python"
 
 print("after modify : ",dic)
 print(id(dic))
+
+print(dic.keys())
+print(dic.values())
+
+print(dir(dic))
