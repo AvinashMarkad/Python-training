@@ -1,0 +1,12 @@
+a= [101,102,103,104,105,106,107,108,109,110]
+print("before slicing : ",a)
+print("after slicing a[2:7]     : ",a[2:7])
+print("after slicing a[2:]      : ",a[2:])
+print("after slicing a[:7]      : ",a[:7])
+print("after slicing a[:]       : ",a[:])
+print("after slicing a[2:7:2]   : ",a[2:7:2])
+print("after slicing a[2:7:3]   : ",a[2:7:3])
+print("after slicing a[::2]     : ",a[::2])
+print("after slicing a[::-1]    : ",a[::-1])
+print("after slicing a[::-2]    : ",a[::-2])
+print("after slicing a[::-3]    : ",a[::-3])
