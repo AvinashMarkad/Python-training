@@ -1,0 +1,8 @@
+<h2>Product Update</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="product_id" value="{{ product.id }}" />
+  {{ form.as_p }}
+  <button type="submit">Save Changes</button>
+</form>
